@@ -115,7 +115,7 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 		title, details)
 
 	if link != "" {
-		body := fmt.Sprintf("%s\n[Link](%s)\n", body, link)
+		body = fmt.Sprintf("%s\n[Link](%s)\n", body, link)
 	}
 
 	for _, c := range comments {
