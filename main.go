@@ -90,8 +90,6 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 		return
 	}
 
-	link := strings.TrimSpace(os.Getenv("REPORT_LINK"))
-
 	prNum, err := strconv.Atoi(prNumStr)
 	if err != nil {
 		fmt.Println("provided GITHUB_PULL_REQUEST_ID is not a valid number, not reporting to GitHub.")
@@ -109,19 +107,16 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 		panic(err)
 	}
 
+	reportDownloadURL := strings.TrimSpace(os.Getenv("REPORT_DOWNLOAD_URL"))
 	linkMarkdown := ""
-	if link != "" {
-		linkMarkdown = fmt.Sprintf("%s[Link](%s)\n", link)
+	if reportDownloadURL != "" {
+		linkMarkdown = fmt.Sprintf("[Download Report](%s)\n", reportDownloadURL)
 	}
 
 	// iterate over existing pull request comments - if existing coverage comment found then update
 	body := fmt.Sprintf("%s\n%s\n\n<details><summary>Details</summary>\n\n```\n%s```\n%s\n</details>\n",
 		coverageReportHeaderMarkdown,
 		title, details, linkMarkdown)
-
-	if link != "" {
-		body = fmt.Sprintf("%s\n[Link](%s)\n", body, link)
-	}
 
 	for _, c := range comments {
 		if c.Body == nil {
