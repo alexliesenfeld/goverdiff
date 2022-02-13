@@ -109,10 +109,11 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 		panic(err)
 	}
 
-	linkMarkdown = ""
+	linkMarkdown := ""
 	if link != "" {
 		linkMarkdown = fmt.Sprintf("%s[Link](%s)\n", link)
 	}
+
 	// iterate over existing pull request comments - if existing coverage comment found then update
 	body := fmt.Sprintf("%s\n%s\n\n<details><summary>Details</summary>\n\n```\n%s```\n%s\n</details>\n",
 		coverageReportHeaderMarkdown,
