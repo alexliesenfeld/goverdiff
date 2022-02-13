@@ -1,4 +1,4 @@
-module github.com/flipgroup/goverdiff
+module github.com/alexliesenfeld/goverdiff
 
 go 1.17
 
