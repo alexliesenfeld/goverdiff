@@ -107,16 +107,20 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 		panic(err)
 	}
 
-	reportDownloadURL := strings.TrimSpace(os.Getenv("REPORT_DOWNLOAD_URL"))
-	linkMarkdown := ""
-	if reportDownloadURL != "" {
-		linkMarkdown = fmt.Sprintf("[Download Report](%s)\n", reportDownloadURL)
+	detailsLinkMarkdown := ""
+	detailsLinkUrl := strings.TrimSpace(os.Getenv("DETAILS_LINK_URL"))
+	if detailsLinkUrl != "" {
+		detailsLinkLabel := strings.TrimSpace(os.Getenv("DETAILS_LINK_LABEL"))
+		if detailsLinkLabel == "" {
+			detailsLinkLabel = "Link"
+		}
+		detailsLinkMarkdown = fmt.Sprintf("[%s](%s)\n", detailsLinkLabel, detailsLinkUrl)
 	}
 
 	// iterate over existing pull request comments - if existing coverage comment found then update
 	body := fmt.Sprintf("%s\n%s\n\n<details><summary>Details</summary>\n\n```\n%s```\n%s\n</details>\n",
 		coverageReportHeaderMarkdown,
-		title, details, linkMarkdown)
+		title, details, detailsLinkMarkdown)
 
 	for _, c := range comments {
 		if c.Body == nil {
