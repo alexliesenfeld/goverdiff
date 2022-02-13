@@ -90,6 +90,8 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 		return
 	}
 
+	link := strings.TrimSpace(os.Getenv("REPORT_LINK"))
+
 	prNum, err := strconv.Atoi(prNumStr)
 	if err != nil {
 		fmt.Println("provided GITHUB_PULL_REQUEST_ID is not a valid number, not reporting to GitHub.")
@@ -111,6 +113,10 @@ func createOrUpdateComment(ctx context.Context, title, details string) {
 	body := fmt.Sprintf("%s\n%s\n\n<details><summary>Details</summary>\n\n```\n%s```\n</details>\n",
 		coverageReportHeaderMarkdown,
 		title, details)
+
+	if link != "" {
+		body := fmt.Sprintf("%s\n[Link](%s)\n", body, link)
+	}
 
 	for _, c := range comments {
 		if c.Body == nil {
