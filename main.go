@@ -72,7 +72,7 @@ func buildTable(rootPkgName string, base, head *CoverProfile) string {
 }
 
 func createOrUpdateComment(ctx context.Context, title, details string) {
-	const coverageReportHeaderMarkdown = "## Coverage Report"
+	const coverageReportHeaderMarkdown = "### Coverage Report"
 
 	auth_token := os.Getenv("GITHUB_TOKEN")
 	if auth_token == "" {
@@ -195,30 +195,10 @@ func summaryMessage(base, head int) string {
 	}
 	
 	if base > head {
-		var emoji string
-		switch rand.Intn(3) {
-		case 1:
-			emoji = ":green_salad:"
-		case 2:
-			emoji = ":green_salad:"
-		default:
-			emoji = ":tomato:"
-		}
-	
-		return fmt.Sprintf(":bell: Coverage decreased by `%.2f%%` %s", float64(base-head)/100, emoji)
+		return fmt.Sprintf(":bell: Coverage decreased by `%.2f%%`.", float64(base-head)/100)
 	}
 
-	var emoji string
-	switch rand.Intn(3) {
-	case 1:
-		emoji = ":candy:"
-	case 2:
-		emoji = ":moon_cake:"
-	default:
-		emoji = ":cake:"
-	}
-	
-	return fmt.Sprintf(":medal_sports: Coverage increased by `%.2f%%` %s", float64(head-base)/100, emoji)
+	return fmt.Sprintf(":medal_sports: Coverage increased by `%.2f%%`.", float64(head-base)/100)
 }
 
 func getModulePackageName() string {
