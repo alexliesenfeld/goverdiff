@@ -7,8 +7,9 @@ import (
 	"regexp"
 	"sort"
 	"strconv"
-	"strings"
-
+	"strings"	
+	"math/rand"
+	
 	"github.com/google/go-github/v38/github"
 	"golang.org/x/oauth2"
 )
@@ -187,12 +188,32 @@ func summaryMessage(base, head int) string {
 	if base == head {
 		return "Coverage unchanged."
 	}
-
+	
 	if base > head {
-		return fmt.Sprintf("Coverage decreased by `%.2f%%`. :bell: Shame :bell:", float64(base-head)/100)
+		var emoji string
+		switch rand.Intn(3) {
+		case 1:
+			emoji = ":tomato:
+		case 2:
+			emoji = ":green_salad:
+		case 3:
+			emoji = ":cucumber:
+		}
+	
+		return fmt.Sprintf(":bell: Coverage decreased by `%.2f%%` %s", float64(base-head)/100, emoji)
 	}
 
-	return fmt.Sprintf("Coverage increased by `%.2f%%`. :medal_sports: Keep it up :medal_sports:", float64(head-base)/100)
+	var emoji string
+	switch rand.Intn(3) {
+	case 1:
+		emoji = ":cake:
+	case 2:
+		emoji = ":moon_cake:
+	case 3:
+		emoji = ":candy:
+	}
+	
+	return fmt.Sprintf(":medal_sports: Coverage increased by `%.2f%%` %s", float64(head-base)/100, emoji)
 }
 
 func getModulePackageName() string {
