@@ -9,10 +9,15 @@ import (
 	"strconv"
 	"strings"	
 	"math/rand"
+	"time"
 	
 	"github.com/google/go-github/v38/github"
 	"golang.org/x/oauth2"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())	
+}
 
 func main() {
 	ctx := context.Background()
