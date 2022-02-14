@@ -198,11 +198,11 @@ func summaryMessage(base, head int) string {
 		var emoji string
 		switch rand.Intn(3) {
 		case 1:
-			emoji = ":tomato:"
+			emoji = ":green_salad:"
 		case 2:
 			emoji = ":green_salad:"
-		case 3:
-			emoji = ":cucumber:"
+		default:
+			emoji = ":tomato:"
 		}
 	
 		return fmt.Sprintf(":bell: Coverage decreased by `%.2f%%` %s", float64(base-head)/100, emoji)
@@ -211,11 +211,11 @@ func summaryMessage(base, head int) string {
 	var emoji string
 	switch rand.Intn(3) {
 	case 1:
-		emoji = ":cake:"
+		emoji = ":candy:"
 	case 2:
 		emoji = ":moon_cake:"
-	case 3:
-		emoji = ":candy:"
+	default:
+		emoji = ":cake:"
 	}
 	
 	return fmt.Sprintf(":medal_sports: Coverage increased by `%.2f%%` %s", float64(head-base)/100, emoji)
